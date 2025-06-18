@@ -32,7 +32,8 @@ class Searcher:
             try:
                 companies.append(self.extract_company(item))
             except Exception as e:
-                print(e)
+                pass
+                # print(e)
         return companies
 
 
@@ -41,7 +42,7 @@ class Searcher:
         return int(content.text.strip())
 
 
-    def search(self, link, page_start=1, page_end=None):
+    def search(self, link, page_start=1, page_end=None, with_save = False):
         if page_end:
             self.page_end = page_end
         if self.page_end is None:
@@ -51,8 +52,9 @@ class Searcher:
         for i in range(page_start, self.page_end + 1):
             result = self.raw_search(f"{link}&page={i}")
             companies.extend(self.extract_companies(result))
-            with open(f"search{self.step}.json", 'w', encoding='utf-8') as f:
-                json.dump(companies, f, ensure_ascii=False, indent=4)
+            if with_save:
+                with open(f"search{self.step}.json", 'w', encoding='utf-8') as f:
+                    json.dump(companies, f, ensure_ascii=False, indent=4)
         self.step += 1
         return companies
 
@@ -102,4 +104,4 @@ def multi_main():
 
 
 if __name__ == '__main__':
-    multi_main()
+    main()

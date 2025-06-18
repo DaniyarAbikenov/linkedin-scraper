@@ -19,12 +19,15 @@ def save_dict_to_excel(worksheet, data):
 
     wb.save(str(worksheet).replace(".json", '') + '.xlsx')
 
-input_dir = Path("searches")
-output_dir = Path("results")
+def main():
+    input_dir = Path("searches")
+    output_dir = Path("results")
 
-os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
 
+    with open(input_dir / "Huntignton Beach CA Manufacturing 1-10.json", "r", encoding='utf-8') as f:
+        data = json.load(f)
+    save_dict_to_excel(Path(output_dir) / data['name'], data['results'])
 
-with open(input_dir / "Huntignton Beach CA Manufacturing 1-10.json", "r", encoding='utf-8') as f:
-    data = json.load(f)
-save_dict_to_excel(Path(output_dir) / data['name'], data['results'])
+if __name__ == '__main__':
+    main()
